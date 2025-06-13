@@ -1,6 +1,6 @@
 #honestly idk if i need to import Pin or not but im doing it just in case lol
 from machine import Pin
-from project.lib.led_light import Led_Light
+from led_light import Led_Light
 from time import sleep, time
 
 #set led light pin
@@ -20,7 +20,6 @@ sleep(1)
 
 print("testing toggle()")
 led.toggle()
-
 
 print("testing led_light_state")
 print(f"LED is {led.led_light_state}")
