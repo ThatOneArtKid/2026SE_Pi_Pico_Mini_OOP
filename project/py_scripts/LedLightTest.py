@@ -1,5 +1,5 @@
 from time import sleep
-from led_light import Led_Light
+from project.lib.led_light import Led_Light
 
 # Replace 3 with a valid GPIO pin number for your board
 led = Led_Light(5, flashing = True, debug = True)
@@ -19,6 +19,7 @@ if led.value() == 0:
     print(".off() method passed")
 else:
     print(".off() method failed")
+    
 
 
 print("Testing toggle()")
