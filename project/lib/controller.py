@@ -31,6 +31,13 @@ class TrafficLightSubsystem:
         self.__amber.off()
         self.__green.on()
 
+    def error_state(self):
+        if self.__debug:
+            print("Traffic: ERROR")
+        self.__red.off()
+        self.__amber.flash()
+        self.__green.off()
+
 class PedestrianSubsystem:
     def __init__(self, red, green, button, buzzer, debug = False):
         self.__red = red
@@ -56,6 +63,13 @@ class PedestrianSubsystem:
             print("Pedestrian: Warning ON")
         self.__red.flash()
         self.__green.off()
+        self.__buzzer.warning_on()
+
+    def show_error(self):
+        if self.__debug:
+            print("Pedestrian: ERROR")
+        self.__red.off()
+        self.__green.off()
 
     
     def is_button_pressed(self):
@@ -63,3 +77,41 @@ class PedestrianSubsystem:
     
     def reset_button(self):
         self.__button.button_state(False)
+
+class Controller:
+    def __init__(self, ped_red, ped_green, traffic_red, traffic_amber, traffic_green, button, buzzer, debug):
+        self.__traffic_lights = TrafficLightSubsystem(traffic_red, traffic_amber, traffic_green, debug)
+        self.__pedestrian_signals = PedestrianSubsystem(ped_red, ped_green, button, buzzer, debug)
+        self.__debug = debug
+        self.state = "IDLE"
+        self.last_state_change = time()
+    
+    def set_idle_state(self):
+        if self.__debug:
+            print("System: IDLE state")
+        self.__pedestrian_signals.show_stop()
+        self.__traffic_lights.show_green()
+
+    def set_change_state(self):
+        if self.__debug:
+            print("System: CHANGE state")
+        self.__pedestrian_signals.show_stop()
+        self.__traffic_lights.show_amber()
+
+    def set_walk_state(self):
+        if self.__debug:
+            print("System: WALK state")
+        self.__pedestrian_signals.show_walk()
+        self.__traffic_lights.show_red()
+
+    def set_warning_state(self):
+        if self.__debug:
+            print("System: WARNING state")
+        self.__pedestrian_signals.show_warning()
+        self.__traffic_lights.show_red()
+
+    def error_state(self):
+        if self.__debug:
+            print("System: ERROR state")
+        self.__pedestrian_signals.show_error()
+        self.__traffic_lights.error_state()

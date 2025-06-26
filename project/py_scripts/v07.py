@@ -20,6 +20,8 @@ light = TrafficLightSubsystem(red, amber, green, True)
 pedestrian = PedestrianSubsystem(pedestrired, pedestrigreen, pedestrianbutton, buzzer, True)
 
 def SubsystemDryer():
+    #testing controller FIRST because i am not waiting for all that
+
     #testing traffic light system
     print("testing traffic light in 5 seconds")
     sleep(3)
